@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="资源文件\shader">
+      <UniqueIdentifier>{604b5b16-0545-461f-920c-49cc4da4084f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -21,10 +24,150 @@
     <ClCompile Include="src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="stb_imag.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\window.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\defer_render.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\object.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shadow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skybox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ssao.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\BlingPhong.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\BlingPhong.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\BlingPhong_Defer.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\BlingPhong_Defer.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\boundarycolor.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\depthvisualization.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\DirLightDepthShader.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\DirLightDepthShader.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\lightfragment.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\lightvertexshader.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\NormalVisualization.fs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\NormalVisualization.gs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\NormalVisualization.vs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PBR_defer.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PBR_defer.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PBR_forward.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PBR_forward.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PointLightDepthMapArray.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PointLightDepthMapArray.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PointLightDepthShader.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PointLightDepthShader.gs">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PointLightDepthShader.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\postprocess.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\postprocess.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\RenderToGbuffer.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\RenderToGbuffer.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\skybox.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\skybox.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\SSAO.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\SSAO.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\SSAOblur.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\SSAOblur.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

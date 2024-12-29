@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,9 +134,57 @@
   <ItemGroup>
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="stb_imag.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\defer_render.h" />
+    <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\mesh.h" />
+    <ClInclude Include="include\model.h" />
+    <ClInclude Include="include\object.h" />
+    <ClInclude Include="include\scene.h" />
+    <ClInclude Include="include\shader.h" />
+    <ClInclude Include="include\shadow.h" />
+    <ClInclude Include="include\skybox.h" />
+    <ClInclude Include="include\ssao.h" />
+    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\BlingPhong.frag" />
+    <None Include="shader\BlingPhong.vert" />
+    <None Include="shader\BlingPhong_Defer.frag" />
+    <None Include="shader\BlingPhong_Defer.vert" />
+    <None Include="shader\boundarycolor.frag" />
+    <None Include="shader\depthvisualization.frag" />
+    <None Include="shader\DirLightDepthShader.frag" />
+    <None Include="shader\DirLightDepthShader.vert" />
+    <None Include="shader\lightfragment.frag" />
+    <None Include="shader\lightvertexshader.vert" />
+    <None Include="shader\NormalVisualization.fs" />
+    <None Include="shader\NormalVisualization.gs" />
+    <None Include="shader\NormalVisualization.vs" />
+    <None Include="shader\PBR_defer.frag" />
+    <None Include="shader\PBR_defer.vert" />
+    <None Include="shader\PBR_forward.frag" />
+    <None Include="shader\PBR_forward.vert" />
+    <None Include="shader\PointLightDepthMapArray.frag" />
+    <None Include="shader\PointLightDepthMapArray.vert" />
+    <None Include="shader\PointLightDepthShader.frag" />
+    <None Include="shader\PointLightDepthShader.gs" />
+    <None Include="shader\PointLightDepthShader.vert" />
+    <None Include="shader\postprocess.frag" />
+    <None Include="shader\postprocess.vert" />
+    <None Include="shader\RenderToGbuffer.frag" />
+    <None Include="shader\RenderToGbuffer.vert" />
+    <None Include="shader\skybox.frag" />
+    <None Include="shader\skybox.vert" />
+    <None Include="shader\SSAO.frag" />
+    <None Include="shader\SSAO.vert" />
+    <None Include="shader\SSAOblur.frag" />
+    <None Include="shader\SSAOblur.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

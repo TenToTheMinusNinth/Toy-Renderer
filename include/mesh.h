@@ -3,8 +3,8 @@
 
 #include <glad/glad.h> // holds all OpenGL type declarations
 
-#include <glm-0.9.8.5/glm/glm.hpp>
-#include <glm-0.9.8.5/glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <shader.h>
 

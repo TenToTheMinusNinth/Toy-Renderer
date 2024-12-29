@@ -2,8 +2,8 @@
 #define OBJECT_H
 
 #include <glad/glad.h>
-#include <glm-0.9.8.5/glm/glm.hpp>
-#include <glm-0.9.8.5/glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <GLFW/glfw3.h>
 #include <shader.h>
