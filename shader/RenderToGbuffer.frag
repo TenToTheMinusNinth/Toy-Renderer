@@ -7,12 +7,10 @@ in vec2 TexCoords;
 in vec3 FragPos;
 in vec3 Normal;
 
-struct Material {
-    sampler2D texture_albedo1;
-    sampler2D texture_normal1;
-    sampler2D texture_metallic1;
-    sampler2D texture_roughness1;
-}; 
+struct Material{
+ sampler2D texture_diffuse1;
+ sampler2D texture_specular1;
+};
 
 uniform Material material;
 
@@ -31,9 +29,9 @@ void main()
     gPositionDepth.a = LinearizeDepth(gl_FragCoord.z); 
    
     gNormalMetallic.rgb = normalize(Normal);//暂时使用模型自身的法线
-    gNormalMetallic.a = texture(material.texture_metallic1,TexCoords).r;
+    gNormalMetallic.a = texture(material.texture_specular1,TexCoords).b;
    
-    gAlbedoRoughness.rgb = texture(material.texture_albedo1, TexCoords).rgb;
-    gAlbedoRoughness.a = texture(material.texture_roughness1, TexCoords).r;
+    gAlbedoRoughness.rgb = texture(material.texture_diffuse1, TexCoords).rgb;
+    gAlbedoRoughness.a = texture(material.texture_specular1, TexCoords).g;
 
 }

@@ -166,19 +166,7 @@ private:
         // 4. height maps
         std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-        //PBR matrial
-        // 1. albedo maps
-        std::vector<Texture> albedoMaps = loadMaterialTextures(material, aiTextureType_BASE_COLOR, "texture_albedo");
-        textures.insert(textures.end(), albedoMaps.begin(), albedoMaps.end());
-        // 2. metalness maps
-        std::vector<Texture> metalnessMaps = loadMaterialTextures(material, aiTextureType_METALNESS, "texture_metalness");
-        textures.insert(textures.end(), metalnessMaps.begin(), metalnessMaps.end());
-        // 3. roughness maps
-        std::vector<Texture> roughnessMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE_ROUGHNESS, "texture_roughness");
-        textures.insert(textures.end(), roughnessMaps.begin(), roughnessMaps.end());
-        // 4. ambient occlusion maps
-        std::vector<Texture> ambientocclusionMaps = loadMaterialTextures(material, aiTextureType_AMBIENT_OCCLUSION, "texture_ambientocclusion");
-        textures.insert(textures.end(), ambientocclusionMaps.begin(), ambientocclusionMaps.end());
+        
 
         // return a mesh object created from the extracted mesh data
         return Mesh(vertices, indices, textures);

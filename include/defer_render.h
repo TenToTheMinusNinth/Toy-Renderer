@@ -58,6 +58,8 @@ public:
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			std::cout << "Framebuffer not complete!" << std::endl;
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		
 	}
 
 	//render scene's geometry/color data into gbuffer
@@ -75,15 +77,16 @@ public:
 	void LightingPass(Shader shader, Scene scene,Camera camera) const {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader.use();
+		shader.setInt("gPositionDepth", 0);
+		shader.setInt("gNormalMetallic", 1);
+		shader.setInt("gAlbedoRoughness", 2);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, gPositionDepth);
-		shader.setInt("gPositionDepth", 0);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, gNormalMetallic);
-		shader.setInt("gNormalMetallic", 1);
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, gAlbedoRoughness);
-		shader.setInt("gAlbedoRoughness", 2);
+		
 
 		// Also send light relevant uniforms
 		for (GLuint i = 0; i < scene.PointLightNumber; i++)

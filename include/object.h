@@ -16,8 +16,8 @@ public:
 	glm::vec3 rotate;
 	glm::vec3 scale;
 	glm::mat4 modelmatrix;
-	Model model;
-	Object(Model modelinput,glm::vec3 translateinput, glm::vec3 rotateinput,glm::vec3 scaleinput):model(modelinput),translate(translateinput),rotate(rotateinput),scale(scaleinput){
+	Model* model;
+	Object(Model* modelinput,glm::vec3 translateinput, glm::vec3 rotateinput,glm::vec3 scaleinput):model(modelinput),translate(translateinput),rotate(rotateinput),scale(scaleinput){
 		modelmatrix = glm::mat4(1.0);
 		modelmatrix = glm::translate(modelmatrix, translate);
 		modelmatrix = glm::rotate(modelmatrix, glm::radians(rotate.r), glm::vec3(1.0, 0.0, 0.0));
@@ -27,7 +27,7 @@ public:
 	}
 	void render(Shader& shader){
 		shader.setMat4("model", modelmatrix);
-		model.Draw(shader);
+		model->Draw(shader);
 	}
 	
 private:

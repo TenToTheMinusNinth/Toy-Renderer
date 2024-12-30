@@ -56,7 +56,7 @@ int main()
     Shader test("shader/test.vert", "shader/test.frag");
     //Shader lightingShader("shader/BlingPhong.vert", "shader/BlingPhong.frag");
     //Shader lightingShader_Defer("shader/BlingPhong_Defer.vs","shader/BlingPhong_Defer.fs");
-    //Shader PBRshader_Defer("shader/PBR_defer.vert", "shader/PBR_defer.frag");
+    Shader PBRshader_Defer("shader/PBR_defer.vert", "shader/PBR_defer.frag");
 
     // model configuration
     // --------------------
@@ -64,15 +64,15 @@ int main()
     
     // scene configuration
     // -------------------- 
-    //Scene mainscene(
-        //{
-        //Object(sponza,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
-        //},
-        //DirectLight(glm::vec3(1.0f, -3.0f, 1.0f)),
-        //{
+    Scene mainscene(
+        {
+        Object(&sponza,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
+        },
+        DirectLight(glm::vec3(1.0f, -3.0f, 1.0f)),
+        {
         //PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
-        //}
-    //);
+        }
+    );
     Scene::simplelightshader =
         Shader("shader/lightvertexshader.vert", "shader/lightfragment.frag");
 
@@ -100,9 +100,9 @@ int main()
         //Shader("shader/PointLightDepthShader.vert", "shader/PointLightDepthShader.fs", "shader/PointLightDepthShader.frag");
 
     //gbuffer
-    //GBuffer gbuffer;
-    //GBuffer::RenderToGbuffer =
-        //Shader("shader/RenderToGbuffer.vert", "shader/RenderToGbuffer.frag");
+    GBuffer gbuffer;
+    GBuffer::RenderToGbuffer =
+        Shader("shader/RenderToGbuffer.vert", "shader/RenderToGbuffer.frag");
 
     //AO
     //SSAO ssao;
@@ -200,31 +200,31 @@ int main()
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
         // don't forget to enable shader before setting uniforms
-        test.use();
-        test.setMat4("projection", projection);
-        test.setMat4("view", view);
+        //test.use();
+        //test.setMat4("projection", projection);
+        //test.setMat4("view", view);
         // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        test.setMat4("model", model);
-        sponza.Draw(test);
+        //glm::mat4 model = glm::mat4(1.0f);
+        //model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        //model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        //test.setMat4("model", model);
+        //sponza.Draw(test);
         //gbuffer geometry pass
-        //gbuffer.GeometryPass(mainscene, projection, view);
+        gbuffer.GeometryPass(mainscene, projection, view);
 
         //SSAO
         //ssao.createSSAOtexture(gbuffer, projection);
         //ssao.BlurSSAOTexture();
 
         //gbuffer lighting pass
-        //gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
+        gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
 
         //绘制点光源
         //mainscene.DrawPointLight(projection, view, box, gbuffer.ID);
 
         //Draw skybox
-        //if (skyboxenable == true)
-            //skybox.draw(view, projection, camera);
+        if (skyboxenable == true)
+            skybox.draw(view, projection, camera);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

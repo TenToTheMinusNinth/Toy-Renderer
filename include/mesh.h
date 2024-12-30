@@ -67,10 +67,6 @@ public:
         unsigned int normalNr = 1;
         unsigned int heightNr = 1;
 
-        unsigned int albedoNr = 1;
-        unsigned int metalnessNr = 1;
-        unsigned int roughnessNr = 1;
-        unsigned int ambientocclusionNr = 1;
         for (unsigned int i = 0; i < textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
@@ -85,15 +81,6 @@ public:
                 number = std::to_string(normalNr++); // transfer unsigned int to string
             else if (name == "texture_height")
                 number = std::to_string(heightNr++); // transfer unsigned int to string
-
-            else if (name == "texture_albedo")
-                number = std::to_string(albedoNr++);
-            else if (name == "texture_metalness")
-                number = std::to_string(metalnessNr++);
-            else if (name == "texture_roughness")
-                number = std::to_string(roughnessNr++);
-            else if (name == "texture_ambientocclusion")
-                number = std::to_string(ambientocclusionNr++);
 
             // now set the sampler to the correct texture unit
             glUniform1i(glGetUniformLocation(shader.ID, ("material." + name + number).c_str()), i);
