@@ -169,5 +169,11 @@
     <None Include="shader\SSAOblur.vert">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\test.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\test.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

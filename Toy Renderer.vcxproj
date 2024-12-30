@@ -185,6 +185,8 @@
     <None Include="shader\SSAO.vert" />
     <None Include="shader\SSAOblur.frag" />
     <None Include="shader\SSAOblur.vert" />
+    <None Include="shader\test.frag" />
+    <None Include="shader\test.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

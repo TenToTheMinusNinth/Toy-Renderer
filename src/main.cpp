@@ -49,26 +49,26 @@ int main()
 
     // build and compile shader program
     // ------------------------------------
-    Shader lightingShader("shader/BlingPhong.vert", "shader/BlingPhong.frag");
+    Shader test("shader/test.vert", "shader/test.frag");
+    //Shader lightingShader("shader/BlingPhong.vert", "shader/BlingPhong.frag");
     //Shader lightingShader_Defer("shader/BlingPhong_Defer.vs","shader/BlingPhong_Defer.fs");
     //Shader PBRshader_Defer("shader/PBR_defer.vert", "shader/PBR_defer.frag");
 
     // model configuration
     // --------------------
-    Model box("model/box.obj");
-    Model nanosuit("model/nanosuit/nanosuit.obj");
+    Model sponza("model/Sponza/sponza.obj");
     
     // scene configuration
     // -------------------- 
-    Scene mainscene(
-        {
-        Object(nanosuit,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
-        },
-        DirectLight(glm::vec3(1.0f, -3.0f, 1.0f)),
-        {
-        PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
-        }
-    );
+    //Scene mainscene(
+        //{
+        //Object(sponza,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
+        //},
+        //DirectLight(glm::vec3(1.0f, -3.0f, 1.0f)),
+        //{
+        //PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
+        //}
+    //);
     Scene::simplelightshader =
         Shader("shader/lightvertexshader.vert", "shader/lightfragment.frag");
 
@@ -144,9 +144,16 @@ int main()
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
-        lightingShader.setMat4("view", view);
-        lightingShader.setMat4("projection", projection);
-        nanosuit.Draw(lightingShader);
+        // don't forget to enable shader before setting uniforms
+        test.use();
+        test.setMat4("projection", projection);
+        test.setMat4("view", view);
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        test.setMat4("model", model);
+        sponza.Draw(test);
         //gbuffer geometry pass
         //gbuffer.GeometryPass(mainscene, projection, view);
 
@@ -162,9 +169,9 @@ int main()
 
         //Draw skybox
         //if (skyboxenable == true)
-            skybox.draw(view, projection, camera);
+            //skybox.draw(view, projection, camera);
 
-
+        cout << "render finish" << endl;
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
