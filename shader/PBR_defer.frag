@@ -19,7 +19,7 @@ struct DirLight{
 
 uniform vec3 viewPos;
 uniform DirLight dirlight;
-uniform PointLight pointlight[NR_POINT_LIGHTS];
+//uniform PointLight pointlight[NR_POINT_LIGHTS];
 
 //gBuffer
 uniform sampler2D gPositionDepth;//position and depth
@@ -137,18 +137,18 @@ void main(){
 
 	Lo+=BRDF * Li * cosTheta;
 	//µ„π‚‘¥
-	for(int i=0;i<NR_POINT_LIGHTS;i++){
-		Wi=normalize(pointlight[i].position-FragPos);
+	//for(int i=0;i<NR_POINT_LIGHTS;i++){
+		//Wi=normalize(pointlight[i].position-FragPos);
 		// attenuation
-		float Distance = length(pointlight[i].position - FragPos);
-		float attenuation = 1.0 / (pointlight[i].constant + pointlight[i].linear * Distance + pointlight[i].quadratic * (Distance * Distance));  
-		Li=dirlight.L * attenuation;
+		//float Distance = length(pointlight[i].position - FragPos);
+		//float attenuation = 1.0 / (pointlight[i].constant + pointlight[i].linear * Distance + pointlight[i].quadratic * (Distance * Distance));  
+		//Li=dirlight.L * attenuation;
 
-		float cosTheta = max(dot(N, Wi), 0.0f);
-		vec3 BRDF=calBRDF(P,Wo,Wi,albedo,roughness,metallic,N);
+		//float cosTheta = max(dot(N, Wi), 0.0f);
+		//vec3 BRDF=calBRDF(P,Wo,Wi,albedo,roughness,metallic,N);
 
-		Lo+=BRDF * Li * cosTheta;
-	}
+		//Lo+=BRDF * Li * cosTheta;
+	//}
 	//----------
 	
 	

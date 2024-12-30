@@ -77,26 +77,24 @@ public:
 	void LightingPass(Shader shader, Scene scene,Camera camera) const {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader.use();
-		shader.setInt("gPositionDepth", 0);
-		shader.setInt("gNormalMetallic", 1);
-		shader.setInt("gAlbedoRoughness", 2);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, gPositionDepth);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, gNormalMetallic);
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, gAlbedoRoughness);
-		
+		shader.setVec3("dirlight.direction", scene.directlight.direction);
+		shader.setVec3("dirlight.L", glm::vec3(300.0f));
 
 		// Also send light relevant uniforms
-		for (GLuint i = 0; i < scene.PointLightNumber; i++)
-		{
-			shader.setVec3("lights[" + std::to_string(i) + "].Position", scene.pointlight[i].position);
-			shader.setVec3("lights[" + std::to_string(i) + "].Color", scene.pointlight[i].color);
+		//for (GLuint i = 0; i < scene.PointLightNumber; i++)
+		//{
+			//shader.setVec3("lights[" + std::to_string(i) + "].Position", scene.pointlight[i].position);
+			//shader.setVec3("lights[" + std::to_string(i) + "].Color", scene.pointlight[i].color);
 
-			shader.setFloat("lights[" + std::to_string(i) + "].Linear", scene.pointlight[i].linear);
-			shader.setFloat("lights[" + std::to_string(i) + "].Quadratic", scene.pointlight[i].quadratic);
-		}
+			//shader.setFloat("lights[" + std::to_string(i) + "].Linear", scene.pointlight[i].linear);
+			//shader.setFloat("lights[" + std::to_string(i) + "].Quadratic", scene.pointlight[i].quadratic);
+		//}
 		shader.setVec3("viewPos", camera.Position);
 		RenderQuad();
 	}

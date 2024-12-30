@@ -7,120 +7,64 @@
 
 #include <GLFW/glfw3.h>
 
-
-class DirectLight{
+class Light {
 public:
 	glm::vec3 position;
-	glm::vec3 direction;
+	glm::vec3 color;
+	double radientflux = 1000.0;//辐射通量，单位W
+	double density=1.0;//范围[0,1]，不是物理量
+	Light() {
 
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	 DirectLight(glm::vec3 positioninput,glm::vec3 directioninput,glm::vec3 ambientinput,glm::vec3 diffuseinput,glm::vec3 specularinput) {
-		 position= positioninput;
-		 direction = directioninput;
-		 ambient = ambientinput;
-		 diffuse = diffuseinput;
-		 specular = specularinput;
 	}
-	 DirectLight(glm::vec3 directioninput) {
-		 position = glm::vec3(-2.0f, 4.0f, -1.0f);
-		 direction = directioninput;
+	void SetPosition(glm::vec3 positioninput) {
+		position = positioninput;
+	}
+	void SetColor(glm::vec3 colorinput) {
+		color = colorinput;
+	}
+	void SetRadientflux(double radientfluxinput) {
+		radientflux = radientfluxinput;
+	}
+	void SetDensity(double densityinput) {
+		density = densityinput;
+	}
+private:
 
-		 ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-		 diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-		 specular = glm::vec3(0.5f, 0.5f, 0.5f);
+};
+class DirectLight : public Light{
+public:
+	glm::vec3 direction;
+	 DirectLight(glm::vec3 directioninput,glm::vec3 colorinput){
+		position = glm::vec3(0.0f, 10.0f, 0.0f);
+		color = colorinput;
+		direction = directioninput;
 	 }
 	 DirectLight() {
-		 position = glm::vec3(-2.0f, 4.0f, -1.0f);
-		 direction = glm::vec3(-1.0f, -5.0f, 1.0f);
-		 
-		 ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-		 diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-		 specular = glm::vec3(0.5f, 0.5f, 0.5f);
+		 position = glm::vec3(0.0f, 10.0f, 0.0f);
+		 color = glm::vec3(1.0, 1.0, 1.0);
+		 direction = glm::vec3(0.0f, -1.0f, 0.0f);
 	 }
 	 void SetDirection(glm::vec3 directioninput) {
 		 direction = directioninput;
-	 }
-	 void SetParameter(glm::vec3 ambientinput, glm::vec3 diffuseinput, glm::vec3 specularinput) {
-		 ambient = ambientinput;
-		 diffuse = diffuseinput;
-		 specular = specularinput;
 	 }
 private:
 
 };
 
-class PointLight {
+class PointLight : public Light{ 
 public:
-	glm::vec3 position;
-
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-
-	glm::vec3 color;
-
-	float constant;
-	float linear;
-	float quadratic;
-
-	
-	PointLight(glm::vec3 positioninput, float constantinput,float linearinput,float quadraticinput,glm::vec3 ambientinput, glm::vec3 diffuseinput, glm::vec3 specularinput, glm::vec3 colorinput) {
+	//光源的衰减系数
+	float constant = 1.0;
+	float linear = 0.045;
+	float quadratic = 0.0075;
+	PointLight(glm::vec3 positioninput ,glm::vec3 colorinput) {
 		position = positioninput;
 		color = colorinput;
-
-		constant = constantinput;
-		linear = linearinput;
-		quadratic = quadraticinput;
-
-		ambient = ambientinput;
-		diffuse = diffuseinput;
-		specular = specularinput;
 	}
-	PointLight(glm::vec3 positioninput) {
-		position = positioninput;
+	PointLight(){
+		position = glm::vec3(0.0f, 10.0f, 0.0f);
 		color = glm::vec3(1.0, 1.0, 1.0);
-
-		constant = 1.0f;
-		linear = 0.09f;
-		quadratic = 0.032f;
-		ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-		diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-		specular = glm::vec3(0.5f, 0.5f, 0.5f);
-	}
-	
-	PointLight(glm::vec3 positioninput, glm::vec3 colorinput) {
-		position = positioninput;
-		color = colorinput;
-
-		constant = 1.0f;
-		linear = 0.09f;
-		quadratic = 0.032f;
-		ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-		diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-		specular = glm::vec3(0.5f, 0.5f, 0.5f);
-	}
-	PointLight() {
-		position = glm::vec3(0.0f, 0.0f, 0.0f);
-		color = glm::vec3(1.0, 1.0, 1.0);
-
-		constant = 1.0f;
-		linear = 0.09f;
-		quadratic = 0.032f;
-		ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-		diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
-		specular = glm::vec3(0.5f, 0.5f, 0.5f);
-	}
-	
-	void SetPosition(glm::vec3 positioninput) {
-		position = positioninput;
-	}
-	void SetLightParameter(glm::vec3 ambientinput, glm::vec3 diffuseinput, glm::vec3 specularinput) {
-		 ambient = ambientinput;
-		 diffuse = diffuseinput;
-		 specular = specularinput;
-	 }
+	}		
 	void SetAttenuationParameter(float constantinput, float linearinput, float quadraticinput) {
 		constant = constantinput;
 		linear = linearinput;

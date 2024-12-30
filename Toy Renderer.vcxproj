@@ -168,6 +168,8 @@
     <None Include="shader\depthvisualization.frag" />
     <None Include="shader\DirLightDepthShader.frag" />
     <None Include="shader\DirLightDepthShader.vert" />
+    <None Include="shader\gbuffer_test.frag" />
+    <None Include="shader\gbuffer_test.vert" />
     <None Include="shader\lightfragment.frag" />
     <None Include="shader\lightvertexshader.vert" />
     <None Include="shader\NormalVisualization.fs" />
@@ -192,8 +194,8 @@
     <None Include="shader\SSAO.vert" />
     <None Include="shader\SSAOblur.frag" />
     <None Include="shader\SSAOblur.vert" />
-    <None Include="shader\test.frag" />
-    <None Include="shader\test.vert" />
+    <None Include="shader\modeltest.frag" />
+    <None Include="shader\modeltest.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

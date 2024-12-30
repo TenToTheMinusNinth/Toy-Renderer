@@ -53,22 +53,30 @@ int main()
 
     // build and compile shader program
     // ------------------------------------
-    Shader test("shader/test.vert", "shader/test.frag");
+    //Shader modeltest("shader/modeltest.vert", "shader/modeltest.frag");
     //Shader lightingShader("shader/BlingPhong.vert", "shader/BlingPhong.frag");
     //Shader lightingShader_Defer("shader/BlingPhong_Defer.vs","shader/BlingPhong_Defer.fs");
-    Shader PBRshader_Defer("shader/PBR_defer.vert", "shader/PBR_defer.frag");
-
+    //Shader PBRshader_Defer("shader/PBR_defer.vert", "shader/PBR_defer.frag");
+    //PBRshader_Defer.use();
+    //PBRshader_Defer.setInt("gPositionDepth", 0);
+    //PBRshader_Defer.setInt("gNormalMetallic", 1);
+    //PBRshader_Defer.setInt("gAlbedoRoughness", 2);
+    Shader gbuffer_test("shader/gbuffer_test.vert", "shader/gbuffer_test.frag");
+    gbuffer_test.use();
+    gbuffer_test.setInt("gPositionDepth", 0);
+    gbuffer_test.setInt("gNormalMetallic", 1);
+    gbuffer_test.setInt("gAlbedoRoughness", 2);
     // model configuration
     // --------------------
-    Model sponza("model/Sponza/sponza.obj");
-    
+    //Model sponza("model/Sponza/sponza.obj");
+    Model nanosuit("model/nanosuit/nanosuit.obj");
     // scene configuration
     // -------------------- 
     Scene mainscene(
         {
-        Object(&sponza,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
+        Object(&nanosuit,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
         },
-        DirectLight(glm::vec3(1.0f, -3.0f, 1.0f)),
+        DirectLight(),
         {
         //PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
         }
@@ -150,37 +158,70 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         //ImGui::ShowDemoWindow(); // Show demo window! :)
-
-        ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Checkbox("playmode", &playmode);
-        ImGui::Checkbox("skybox", &skyboxenable);
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            playmode = false;
-        if (playmode == true) {
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            glfwSetCursorPosCallback(window, mouse_callback);
-            glfwSetScrollCallback(window, scroll_callback);
-            camera.processInput(window, deltaTime);
-
-        }
-        else {
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-            glfwSetCursorPosCallback(window, ImGui_ImplGlfw_CursorPosCallback);
-            glfwSetScrollCallback(window, NULL);
-        }
         static float clearcolor[3] = { 0.0f, 0.0f, 0.0f };
-        ImGui::ColorEdit3("clear color", clearcolor);
-        glClearColor(clearcolor[0], clearcolor[1], clearcolor[2], 1.0);
-        ImGui::Checkbox("wireframe", &wireframe);
-        if (wireframe == true)
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        else
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        ImGui::Checkbox("GammaEnable", &GammaEnable);
-        if (GammaEnable == true)
-            glEnable(GL_FRAMEBUFFER_SRGB);
-        else
-            glDisable(GL_FRAMEBUFFER_SRGB);
+        ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+        ImGui::SetWindowFontScale(2.0f);
+        if (ImGui::TreeNode("Basic Setting")) {
+            ImGui::Checkbox("playmode", &playmode);
+            if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+                playmode = false;
+            if (playmode == true) {
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                glfwSetCursorPosCallback(window, mouse_callback);
+                glfwSetScrollCallback(window, scroll_callback);
+                camera.processInput(window, deltaTime);
+
+            }
+            else {
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                glfwSetCursorPosCallback(window, ImGui_ImplGlfw_CursorPosCallback);
+                glfwSetScrollCallback(window, NULL);
+            }
+
+            ImGui::ColorEdit3("clear color", clearcolor);
+            glClearColor(clearcolor[0], clearcolor[1], clearcolor[2], 1.0);
+            ImGui::Checkbox("wireframe", &wireframe);
+            if (wireframe == true)
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            else
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            ImGui::Checkbox("GammaEnable", &GammaEnable);
+            if (GammaEnable == true)
+                glEnable(GL_FRAMEBUFFER_SRGB);
+            else
+                glDisable(GL_FRAMEBUFFER_SRGB);
+            ImGui::Checkbox("skybox", &skyboxenable);
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Lighting Setting")) {
+            for (int i = 0; i < 2; i++)
+            {
+                if (i == 0)
+                    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+                ImGui::PushID(i);
+                if (i == 0) {
+                    if (ImGui::TreeNode("", "DirectLight", i))
+                    {
+                        ImGui::ColorEdit3("Color", clearcolor);
+                        static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+                        ImGui::InputFloat3("Direction", vec4a);
+                        ImGui::TreePop();
+                    }
+                }
+                if (i == 1) {
+                    if (ImGui::TreeNode("", "PointLight", i))
+                    {
+                        ImGui::ColorEdit3("Color", clearcolor);
+                        static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+                        ImGui::InputFloat3("Position", vec4a);
+                        ImGui::TreePop();
+                    }
+                }
+                ImGui::PopID();
+            }
+            ImGui::TreePop();
+        }
         ImGui::End();
 
         // render loop
@@ -217,7 +258,19 @@ int main()
         //ssao.BlurSSAOTexture();
 
         //gbuffer lighting pass
-        gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
+        //gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
+        // 2. Lighting Pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gbuffer_test.use();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gPositionDepth);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gNormalMetallic);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gAlbedoRoughness);
+        
+        // Finally render quad
+        RenderQuad();
 
         //绘制点光源
         //mainscene.DrawPointLight(projection, view, box, gbuffer.ID);

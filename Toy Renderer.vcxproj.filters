@@ -190,10 +190,16 @@
     <None Include="shader\SSAOblur.vert">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="shader\test.vert">
+    <None Include="shader\modeltest.vert">
       <Filter>资源文件\shader</Filter>
     </None>
-    <None Include="shader\test.frag">
+    <None Include="shader\modeltest.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\gbuffer_test.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\gbuffer_test.frag">
       <Filter>资源文件\shader</Filter>
     </None>
   </ItemGroup>
