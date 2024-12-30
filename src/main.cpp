@@ -13,6 +13,10 @@
 #include <defer_render.h>
 #include <ssao.h>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
 unsigned int loadTexture(const char* path);
@@ -107,6 +111,18 @@ int main()
     //SSAO::shaderSSAOBlur =
         //Shader("shader/SSAOblur.vert", "shader/SSAOblur.frag");
 
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplOpenGL3_Init();
+
     // configure global opengl state
     // -----------------------------
     glEnable(GL_MULTISAMPLE);//∆Ù”√MSAA
@@ -127,6 +143,45 @@ int main()
         lastFrame = currentFrame;
 
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+        //imgui
+            // Start the Dear ImGui frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        //ImGui::ShowDemoWindow(); // Show demo window! :)
+
+        ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+        ImGui::Checkbox("playmode", &playmode);
+        ImGui::Checkbox("skybox", &skyboxenable);
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            playmode = false;
+        if (playmode == true) {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetCursorPosCallback(window, mouse_callback);
+            glfwSetScrollCallback(window, scroll_callback);
+            camera.processInput(window, deltaTime);
+
+        }
+        else {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            glfwSetCursorPosCallback(window, ImGui_ImplGlfw_CursorPosCallback);
+            glfwSetScrollCallback(window, NULL);
+        }
+        static float clearcolor[3] = { 0.0f, 0.0f, 0.0f };
+        ImGui::ColorEdit3("clear color", clearcolor);
+        glClearColor(clearcolor[0], clearcolor[1], clearcolor[2], 1.0);
+        ImGui::Checkbox("wireframe", &wireframe);
+        if (wireframe == true)
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        else
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        ImGui::Checkbox("GammaEnable", &GammaEnable);
+        if (GammaEnable == true)
+            glEnable(GL_FRAMEBUFFER_SRGB);
+        else
+            glDisable(GL_FRAMEBUFFER_SRGB);
+        ImGui::End();
 
         // render loop
         // ------
@@ -171,6 +226,8 @@ int main()
         //if (skyboxenable == true)
             //skybox.draw(view, projection, camera);
 
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         cout << "render finish" << endl;
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -181,7 +238,9 @@ int main()
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
-   
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     return 0;
 }
 
