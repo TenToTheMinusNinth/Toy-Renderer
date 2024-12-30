@@ -158,7 +158,7 @@ int main()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         //ImGui::ShowDemoWindow(); // Show demo window! :)
-        static float clearcolor[3] = { 0.0f, 0.0f, 0.0f };
+
         ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
         ImGui::SetWindowFontScale(2.0f);
         if (ImGui::TreeNode("Basic Setting")) {
@@ -177,7 +177,7 @@ int main()
                 glfwSetCursorPosCallback(window, ImGui_ImplGlfw_CursorPosCallback);
                 glfwSetScrollCallback(window, NULL);
             }
-
+            static float clearcolor[3] = { 0.0f, 0.0f, 0.0f };
             ImGui::ColorEdit3("clear color", clearcolor);
             glClearColor(clearcolor[0], clearcolor[1], clearcolor[2], 1.0);
             ImGui::Checkbox("wireframe", &wireframe);
@@ -202,19 +202,62 @@ int main()
                 ImGui::PushID(i);
                 if (i == 0) {
                     if (ImGui::TreeNode("", "DirectLight", i))
-                    {
-                        ImGui::ColorEdit3("Color", clearcolor);
-                        static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-                        ImGui::InputFloat3("Direction", vec4a);
+                    {   
+                        static float dirlightcolor[3] = { 1.0f, 1.0f, 1.0f };
+                        ImGui::ColorEdit3("Color", dirlightcolor);
+                        mainscene.directlight.SetColor(glm::vec3(dirlightcolor[0], dirlightcolor[1], dirlightcolor[2]));
+                        static float dirlightdirection[3] = { 0.10f, 0.20f, 0.30f};
+                        ImGui::InputFloat3("Direction", dirlightdirection);
+                        mainscene.directlight.SetDirection(glm::vec3(dirlightdirection[0], dirlightdirection[1], dirlightdirection[2]));
                         ImGui::TreePop();
                     }
                 }
                 if (i == 1) {
                     if (ImGui::TreeNode("", "PointLight", i))
                     {
-                        ImGui::ColorEdit3("Color", clearcolor);
-                        static float vec4a[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
-                        ImGui::InputFloat3("Position", vec4a);
+                            for (int j = 0; j < 5; j++)
+                            {
+                               
+                                if (j == 0)
+                                    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+
+                                ImGui::PushID(j);
+                                if (j == 0) {
+                                    if (ImGui::TreeNode("", "pointlight 1", j))
+                                    {
+
+                                        ImGui::TreePop();
+                                    }
+                                }
+
+                                if (j == 1) {
+                                    if (ImGui::TreeNode("", "pointlight 2", j))
+                                    {
+
+                                        ImGui::TreePop();
+                                    }
+                                }
+
+                                if (j == 2) {
+                                    if (ImGui::TreeNode("", "pointlight 3", j))
+                                    {
+
+                                        ImGui::TreePop();
+                                    }
+                                }
+
+                                if (j == 3) {
+                                    if (ImGui::TreeNode("", "pointlight 4", j))
+                                    {
+
+                                        ImGui::TreePop();
+                                    }
+                                }
+
+                               
+                                ImGui::PopID();
+                            }
+                        
                         ImGui::TreePop();
                     }
                 }
@@ -262,6 +305,7 @@ int main()
         // 2. Lighting Pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         gbuffer_test.use();
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gbuffer.gPositionDepth);
         glActiveTexture(GL_TEXTURE1);
