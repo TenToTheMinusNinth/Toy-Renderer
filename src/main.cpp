@@ -78,7 +78,10 @@ int main()
         },
         DirectLight(),
         {
-        //PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
+        PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0)),
+        PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0)),
+        PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0)),
+        PointLight(glm::vec3(0.5,1.0,0.0),glm::vec3(0.5,0.5,0.0))
         }
     );
     Scene::simplelightshader =
@@ -213,7 +216,7 @@ int main()
                     }
                 }
                 if (i == 1) {
-                    if (ImGui::TreeNode("", "PointLight", i))
+                    if (ImGui::TreeNode("", "PointLights", i))
                     {
                             for (int j = 0; j < 5; j++)
                             {
@@ -225,7 +228,12 @@ int main()
                                 if (j == 0) {
                                     if (ImGui::TreeNode("", "pointlight 1", j))
                                     {
-
+                                        static float pointlightcolor1[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor1);
+                                        mainscene.pointlight[0].SetColor(glm::vec3(pointlightcolor1[0], pointlightcolor1[1], pointlightcolor1[2]));
+                                        static float pointlightposition1[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition1);
+                                        mainscene.pointlight[0].SetPosition(glm::vec3(pointlightposition1[0], pointlightposition1[1], pointlightposition1[2]));
                                         ImGui::TreePop();
                                     }
                                 }
@@ -233,7 +241,12 @@ int main()
                                 if (j == 1) {
                                     if (ImGui::TreeNode("", "pointlight 2", j))
                                     {
-
+                                        static float pointlightcolor2[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor2);
+                                        mainscene.pointlight[1].SetColor(glm::vec3(pointlightcolor2[0], pointlightcolor2[1], pointlightcolor2[2]));
+                                        static float pointlightposition2[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition2);
+                                        mainscene.pointlight[1].SetPosition(glm::vec3(pointlightposition2[0], pointlightposition2[1], pointlightposition2[2]));
                                         ImGui::TreePop();
                                     }
                                 }
@@ -241,7 +254,12 @@ int main()
                                 if (j == 2) {
                                     if (ImGui::TreeNode("", "pointlight 3", j))
                                     {
-
+                                        static float pointlightcolor3[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor3);
+                                        mainscene.pointlight[2].SetColor(glm::vec3(pointlightcolor3[0], pointlightcolor3[1], pointlightcolor3[2]));
+                                        static float pointlightposition3[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition3);
+                                        mainscene.pointlight[2].SetPosition(glm::vec3(pointlightposition3[0], pointlightposition3[1], pointlightposition3[2]));
                                         ImGui::TreePop();
                                     }
                                 }
@@ -249,7 +267,12 @@ int main()
                                 if (j == 3) {
                                     if (ImGui::TreeNode("", "pointlight 4", j))
                                     {
-
+                                        static float pointlightcolor4[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor4);
+                                        mainscene.pointlight[3].SetColor(glm::vec3(pointlightcolor4[0], pointlightcolor4[1], pointlightcolor4[2]));
+                                        static float pointlightposition4[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition4);
+                                        mainscene.pointlight[3].SetPosition(glm::vec3(pointlightposition4[0], pointlightposition4[1], pointlightposition4[2]));
                                         ImGui::TreePop();
                                     }
                                 }
