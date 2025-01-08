@@ -212,6 +212,9 @@ int main()
                         static float dirlightdirection[3] = { 0.10f, 0.20f, 0.30f};
                         ImGui::InputFloat3("Direction", dirlightdirection);
                         mainscene.directlight.SetDirection(glm::vec3(dirlightdirection[0], dirlightdirection[1], dirlightdirection[2]));
+                        static float dirlightdensity = 1.0;
+                        ImGui::SliderFloat("Density", &dirlightdensity, 0.0f, 1.0f, "%.3f");
+                        mainscene.directlight.SetDensity(dirlightdensity);
                         ImGui::TreePop();
                     }
                 }
@@ -234,6 +237,9 @@ int main()
                                         static float pointlightposition1[3] = { 0.10f, 0.20f, 0.30f };
                                         ImGui::InputFloat3("Position", pointlightposition1);
                                         mainscene.pointlight[0].SetPosition(glm::vec3(pointlightposition1[0], pointlightposition1[1], pointlightposition1[2]));
+                                        static float pointlightdensity1 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity1, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[0].SetDensity(pointlightdensity1);
                                         ImGui::TreePop();
                                     }
                                 }
@@ -247,6 +253,9 @@ int main()
                                         static float pointlightposition2[3] = { 0.10f, 0.20f, 0.30f };
                                         ImGui::InputFloat3("Position", pointlightposition2);
                                         mainscene.pointlight[1].SetPosition(glm::vec3(pointlightposition2[0], pointlightposition2[1], pointlightposition2[2]));
+                                        static float pointlightdensity2 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity2, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[1].SetDensity(pointlightdensity2);
                                         ImGui::TreePop();
                                     }
                                 }
@@ -260,6 +269,9 @@ int main()
                                         static float pointlightposition3[3] = { 0.10f, 0.20f, 0.30f };
                                         ImGui::InputFloat3("Position", pointlightposition3);
                                         mainscene.pointlight[2].SetPosition(glm::vec3(pointlightposition3[0], pointlightposition3[1], pointlightposition3[2]));
+                                        static float pointlightdensity3 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity3, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[2].SetDensity(pointlightdensity3);
                                         ImGui::TreePop();
                                     }
                                 }
@@ -273,6 +285,9 @@ int main()
                                         static float pointlightposition4[3] = { 0.10f, 0.20f, 0.30f };
                                         ImGui::InputFloat3("Position", pointlightposition4);
                                         mainscene.pointlight[3].SetPosition(glm::vec3(pointlightposition4[0], pointlightposition4[1], pointlightposition4[2]));
+                                        static float pointlightdensity4 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity4, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[3].SetDensity(pointlightdensity4);
                                         ImGui::TreePop();
                                     }
                                 }

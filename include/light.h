@@ -12,7 +12,7 @@ public:
 	glm::vec3 position;
 	glm::vec3 color;
 	double radientflux = 1000.0;//辐射通量，单位W
-	double density=1.0;//范围[0,1]，不是物理量
+	float density=1.0;//范围[0,1]，不是物理量
 	Light() {
 
 	}
@@ -25,7 +25,7 @@ public:
 	void SetRadientflux(double radientfluxinput) {
 		radientflux = radientfluxinput;
 	}
-	void SetDensity(double densityinput) {
+	void SetDensity(float densityinput) {
 		density = densityinput;
 	}
 private:
