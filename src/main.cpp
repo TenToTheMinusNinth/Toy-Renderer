@@ -165,7 +165,8 @@ int main()
         //ImGui::ShowDemoWindow(); // Show demo window! :)
 
         ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::SetWindowFontScale(2.0f);
+        static float menuscale = 2.0f;
+        ImGui::SetWindowFontScale(menuscale);
         if (ImGui::TreeNode("Basic Setting")) {
             ImGui::Checkbox("playmode", &playmode);
             if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -190,6 +191,10 @@ int main()
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             else
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+            
+            ImGui::SliderFloat("Menu Scale", &menuscale, 0.001f, 10.0f, "scale = %.3f");
+
             ImGui::Checkbox("GammaEnable", &GammaEnable);
             if (GammaEnable == true)
                 glEnable(GL_FRAMEBUFFER_SRGB);
