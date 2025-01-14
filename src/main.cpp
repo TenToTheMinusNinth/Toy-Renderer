@@ -32,7 +32,13 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-static bool skyboxenable = false;
+//-----------------------------------------------
+//Bool variable
+bool playmode = false;
+bool wireframe = false;
+bool skyboxenable = false;
+bool GammaEnable = false;
+
 int main()
 {
     GLFWwindow* window = CreateWindow(SCR_WIDTH, SCR_HEIGHT);
@@ -63,13 +69,12 @@ int main()
     // model configuration
     // --------------------
     //Model sponza("model/Sponza/sponza.obj");
-    //Model nanosuit("model/nanosuit/nanosuit.obj");
-    Model Sphere("model/Sphere.obj");
+    Model nanosuit("model/nanosuit/nanosuit.obj");
     // scene configuration
     // -------------------- 
     Scene mainscene(
         {
-        Object(&Sphere,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
+        Object(&nanosuit,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
         },
         DirectLight(),
         {
@@ -160,7 +165,6 @@ int main()
         ImGui::Begin("Menu");   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
         ImGui::SetWindowFontScale(2.0f);
         if (ImGui::TreeNode("Basic Setting")) {
-            static bool playmode = false;
             ImGui::Checkbox("playmode", &playmode);
             if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
                 playmode = false;
@@ -179,13 +183,11 @@ int main()
             static float clearcolor[3] = { 0.0f, 0.0f, 0.0f };
             ImGui::ColorEdit3("clear color", clearcolor);
             glClearColor(clearcolor[0], clearcolor[1], clearcolor[2], 1.0);
-            static bool wireframe = false;
             ImGui::Checkbox("wireframe", &wireframe);
             if (wireframe == true)
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             else
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            static bool GammaEnable = false;
             ImGui::Checkbox("GammaEnable", &GammaEnable);
             if (GammaEnable == true)
                 glEnable(GL_FRAMEBUFFER_SRGB);
@@ -194,6 +196,7 @@ int main()
             ImGui::Checkbox("skybox", &skyboxenable);
             ImGui::TreePop();
         }
+
         if (ImGui::TreeNode("Lighting Setting")) {
             for (int i = 0; i < 2; i++)
             {
@@ -202,11 +205,11 @@ int main()
                 ImGui::PushID(i);
                 if (i == 0) {
                     if (ImGui::TreeNode("", "DirectLight", i))
-                    {
+                    {   
                         static float dirlightcolor[3] = { 1.0f, 1.0f, 1.0f };
                         ImGui::ColorEdit3("Color", dirlightcolor);
                         mainscene.directlight.SetColor(glm::vec3(dirlightcolor[0], dirlightcolor[1], dirlightcolor[2]));
-                        static float dirlightdirection[3] = { 0.10f, 0.20f, 0.30f };
+                        static float dirlightdirection[3] = { 0.10f, 0.20f, 0.30f};
                         ImGui::InputFloat3("Direction", dirlightdirection);
                         mainscene.directlight.SetDirection(glm::vec3(dirlightdirection[0], dirlightdirection[1], dirlightdirection[2]));
                         static float dirlightdensity = 1.0;
@@ -218,81 +221,81 @@ int main()
                 if (i == 1) {
                     if (ImGui::TreeNode("", "PointLights", i))
                     {
-                        for (int j = 0; j < 5; j++)
-                        {
+                            for (int j = 0; j < 5; j++)
+                            {
+                               
+                                if (j == 0)
+                                    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 
-                            if (j == 0)
-                                ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-
-                            ImGui::PushID(j);
-                            if (j == 0) {
-                                if (ImGui::TreeNode("", "pointlight 1", j))
-                                {
-                                    static float pointlightcolor1[3] = { 1.0f, 1.0f, 1.0f };
-                                    ImGui::ColorEdit3("Color", pointlightcolor1);
-                                    mainscene.pointlight[0].SetColor(glm::vec3(pointlightcolor1[0], pointlightcolor1[1], pointlightcolor1[2]));
-                                    static float pointlightposition1[3] = { 0.10f, 0.20f, 0.30f };
-                                    ImGui::InputFloat3("Position", pointlightposition1);
-                                    mainscene.pointlight[0].SetPosition(glm::vec3(pointlightposition1[0], pointlightposition1[1], pointlightposition1[2]));
-                                    static float pointlightdensity1 = 1.0;
-                                    ImGui::SliderFloat("Density", &pointlightdensity1, 0.0f, 1.0f, "%.3f");
-                                    mainscene.pointlight[0].SetDensity(pointlightdensity1);
-                                    ImGui::TreePop();
+                                ImGui::PushID(j);
+                                if (j == 0) {
+                                    if (ImGui::TreeNode("", "pointlight 1", j))
+                                    {
+                                        static float pointlightcolor1[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor1);
+                                        mainscene.pointlight[0].SetColor(glm::vec3(pointlightcolor1[0], pointlightcolor1[1], pointlightcolor1[2]));
+                                        static float pointlightposition1[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition1);
+                                        mainscene.pointlight[0].SetPosition(glm::vec3(pointlightposition1[0], pointlightposition1[1], pointlightposition1[2]));
+                                        static float pointlightdensity1 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity1, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[0].SetDensity(pointlightdensity1);
+                                        ImGui::TreePop();
+                                    }
                                 }
-                            }
 
-                            if (j == 1) {
-                                if (ImGui::TreeNode("", "pointlight 2", j))
-                                {
-                                    static float pointlightcolor2[3] = { 1.0f, 1.0f, 1.0f };
-                                    ImGui::ColorEdit3("Color", pointlightcolor2);
-                                    mainscene.pointlight[1].SetColor(glm::vec3(pointlightcolor2[0], pointlightcolor2[1], pointlightcolor2[2]));
-                                    static float pointlightposition2[3] = { 0.10f, 0.20f, 0.30f };
-                                    ImGui::InputFloat3("Position", pointlightposition2);
-                                    mainscene.pointlight[1].SetPosition(glm::vec3(pointlightposition2[0], pointlightposition2[1], pointlightposition2[2]));
-                                    static float pointlightdensity2 = 1.0;
-                                    ImGui::SliderFloat("Density", &pointlightdensity2, 0.0f, 1.0f, "%.3f");
-                                    mainscene.pointlight[1].SetDensity(pointlightdensity2);
-                                    ImGui::TreePop();
+                                if (j == 1) {
+                                    if (ImGui::TreeNode("", "pointlight 2", j))
+                                    {
+                                        static float pointlightcolor2[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor2);
+                                        mainscene.pointlight[1].SetColor(glm::vec3(pointlightcolor2[0], pointlightcolor2[1], pointlightcolor2[2]));
+                                        static float pointlightposition2[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition2);
+                                        mainscene.pointlight[1].SetPosition(glm::vec3(pointlightposition2[0], pointlightposition2[1], pointlightposition2[2]));
+                                        static float pointlightdensity2 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity2, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[1].SetDensity(pointlightdensity2);
+                                        ImGui::TreePop();
+                                    }
                                 }
-                            }
 
-                            if (j == 2) {
-                                if (ImGui::TreeNode("", "pointlight 3", j))
-                                {
-                                    static float pointlightcolor3[3] = { 1.0f, 1.0f, 1.0f };
-                                    ImGui::ColorEdit3("Color", pointlightcolor3);
-                                    mainscene.pointlight[2].SetColor(glm::vec3(pointlightcolor3[0], pointlightcolor3[1], pointlightcolor3[2]));
-                                    static float pointlightposition3[3] = { 0.10f, 0.20f, 0.30f };
-                                    ImGui::InputFloat3("Position", pointlightposition3);
-                                    mainscene.pointlight[2].SetPosition(glm::vec3(pointlightposition3[0], pointlightposition3[1], pointlightposition3[2]));
-                                    static float pointlightdensity3 = 1.0;
-                                    ImGui::SliderFloat("Density", &pointlightdensity3, 0.0f, 1.0f, "%.3f");
-                                    mainscene.pointlight[2].SetDensity(pointlightdensity3);
-                                    ImGui::TreePop();
+                                if (j == 2) {
+                                    if (ImGui::TreeNode("", "pointlight 3", j))
+                                    {
+                                        static float pointlightcolor3[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor3);
+                                        mainscene.pointlight[2].SetColor(glm::vec3(pointlightcolor3[0], pointlightcolor3[1], pointlightcolor3[2]));
+                                        static float pointlightposition3[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition3);
+                                        mainscene.pointlight[2].SetPosition(glm::vec3(pointlightposition3[0], pointlightposition3[1], pointlightposition3[2]));
+                                        static float pointlightdensity3 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity3, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[2].SetDensity(pointlightdensity3);
+                                        ImGui::TreePop();
+                                    }
                                 }
-                            }
 
-                            if (j == 3) {
-                                if (ImGui::TreeNode("", "pointlight 4", j))
-                                {
-                                    static float pointlightcolor4[3] = { 1.0f, 1.0f, 1.0f };
-                                    ImGui::ColorEdit3("Color", pointlightcolor4);
-                                    mainscene.pointlight[3].SetColor(glm::vec3(pointlightcolor4[0], pointlightcolor4[1], pointlightcolor4[2]));
-                                    static float pointlightposition4[3] = { 0.10f, 0.20f, 0.30f };
-                                    ImGui::InputFloat3("Position", pointlightposition4);
-                                    mainscene.pointlight[3].SetPosition(glm::vec3(pointlightposition4[0], pointlightposition4[1], pointlightposition4[2]));
-                                    static float pointlightdensity4 = 1.0;
-                                    ImGui::SliderFloat("Density", &pointlightdensity4, 0.0f, 1.0f, "%.3f");
-                                    mainscene.pointlight[3].SetDensity(pointlightdensity4);
-                                    ImGui::TreePop();
+                                if (j == 3) {
+                                    if (ImGui::TreeNode("", "pointlight 4", j))
+                                    {
+                                        static float pointlightcolor4[3] = { 1.0f, 1.0f, 1.0f };
+                                        ImGui::ColorEdit3("Color", pointlightcolor4);
+                                        mainscene.pointlight[3].SetColor(glm::vec3(pointlightcolor4[0], pointlightcolor4[1], pointlightcolor4[2]));
+                                        static float pointlightposition4[3] = { 0.10f, 0.20f, 0.30f };
+                                        ImGui::InputFloat3("Position", pointlightposition4);
+                                        mainscene.pointlight[3].SetPosition(glm::vec3(pointlightposition4[0], pointlightposition4[1], pointlightposition4[2]));
+                                        static float pointlightdensity4 = 1.0;
+                                        ImGui::SliderFloat("Density", &pointlightdensity4, 0.0f, 1.0f, "%.3f");
+                                        mainscene.pointlight[3].SetDensity(pointlightdensity4);
+                                        ImGui::TreePop();
+                                    }
                                 }
+
+                               
+                                ImGui::PopID();
                             }
-
-
-                            ImGui::PopID();
-                        }
-
+                        
                         ImGui::TreePop();
                     }
                 }
@@ -329,10 +332,7 @@ int main()
         //test.setMat4("model", model);
         //sponza.Draw(test);
         //gbuffer geometry pass
-        //gbuffer.GeometryPass(mainscene, projection, view);
-
-
-
+        gbuffer.GeometryPass(mainscene, projection, view);
 
         //SSAO
         //ssao.createSSAOtexture(gbuffer, projection);
@@ -341,18 +341,18 @@ int main()
         //gbuffer lighting pass
         //gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
         // 2. Lighting Pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //gbuffer_test.use();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gbuffer_test.use();
 
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, gbuffer.gPositionDepth);
-        //glActiveTexture(GL_TEXTURE1);
-        //glBindTexture(GL_TEXTURE_2D, gbuffer.gNormalMetallic);
-        //glActiveTexture(GL_TEXTURE2);
-        //glBindTexture(GL_TEXTURE_2D, gbuffer.gAlbedoRoughness);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gPositionDepth);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gNormalMetallic);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, gbuffer.gAlbedoRoughness);
         
         // Finally render quad
-        //RenderQuad();
+        RenderQuad();
 
         //绘制点光源
         //mainscene.DrawPointLight(projection, view, box, gbuffer.ID);
