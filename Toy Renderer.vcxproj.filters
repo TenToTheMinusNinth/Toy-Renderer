@@ -202,5 +202,11 @@
     <None Include="shader\gbuffer_test.frag">
       <Filter>资源文件\shader</Filter>
     </None>
+    <None Include="shader\PBR_withoutTex.vert">
+      <Filter>资源文件\shader</Filter>
+    </None>
+    <None Include="shader\PBR_withoutTex.frag">
+      <Filter>资源文件\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

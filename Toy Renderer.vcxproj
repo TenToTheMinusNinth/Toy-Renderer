@@ -179,6 +179,8 @@
     <None Include="shader\PBR_defer.vert" />
     <None Include="shader\PBR_forward.frag" />
     <None Include="shader\PBR_forward.vert" />
+    <None Include="shader\PBR_withoutTex.frag" />
+    <None Include="shader\PBR_withoutTex.vert" />
     <None Include="shader\PointLightDepthMapArray.frag" />
     <None Include="shader\PointLightDepthMapArray.vert" />
     <None Include="shader\PointLightDepthShader.frag" />

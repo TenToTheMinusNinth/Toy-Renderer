@@ -39,6 +39,11 @@ bool wireframe = false;
 bool skyboxenable = false;
 bool GammaEnable = false;
 
+static float albedo[3] = {1.0,0.0,0.0};
+static float metallic = 0.0;
+static float roughness = 0.0;
+static float ao = 0.0;
+
 int main()
 {
     GLFWwindow* window = CreateWindow(SCR_WIDTH, SCR_HEIGHT);
@@ -62,6 +67,7 @@ int main()
     //PBRshader_Defer.setInt("gNormalMetallic", 1);
     //PBRshader_Defer.setInt("gAlbedoRoughness", 2);
     Shader gbuffer_test("shader/gbuffer_test.vert", "shader/gbuffer_test.frag");
+    Shader PBR_withoutTex("shader/PBR_withoutTex.vert", "shader/PBR_withoutTex.frag");
     gbuffer_test.use();
     gbuffer_test.setInt("gPositionDepth", 0);
     gbuffer_test.setInt("gNormalMetallic", 1);
@@ -191,10 +197,7 @@ int main()
                 glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             else
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-            
             ImGui::SliderFloat("Menu Scale", &menuscale, 0.001f, 10.0f, "scale = %.3f");
-
             ImGui::Checkbox("GammaEnable", &GammaEnable);
             if (GammaEnable == true)
                 glEnable(GL_FRAMEBUFFER_SRGB);
@@ -309,6 +312,15 @@ int main()
             }
             ImGui::TreePop();
         }
+        if (ImGui::TreeNode("Material Setting")) {
+            ImGui::InputFloat3("albedo", albedo);
+            ImGui::InputFloat("metallic", &metallic, 0.01f, 1.0f, "%.3f");
+            ImGui::InputFloat("roughness", &roughness, 0.01f, 1.0f, "%.3f");
+            ImGui::InputFloat("ao", &ao, 0.01f, 1.0f, "%.3f");
+            ImGui::TreePop();
+
+        }
+       
         ImGui::End();
 
         // render loop
@@ -348,7 +360,7 @@ int main()
         //gbuffer.LightingPass(PBRshader_Defer, mainscene, camera);
         // 2. Lighting Pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        gbuffer_test.use();
+        PBR_withoutTex.use();
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gbuffer.gPositionDepth);
@@ -356,6 +368,18 @@ int main()
         glBindTexture(GL_TEXTURE_2D, gbuffer.gNormalMetallic);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, gbuffer.gAlbedoRoughness);
+
+        PBR_withoutTex.setVec3("albedo",glm::vec3(albedo[0], albedo[1], albedo[2]));
+        PBR_withoutTex.setFloat("metallic", metallic);
+        PBR_withoutTex.setFloat("roughness", roughness);
+        PBR_withoutTex.setFloat("ao", ao);
+       
+        for (int i = 0;i < 4;i++) {
+            PBR_withoutTex.setVec3("lightPositions["+ std::to_string(i) + "]", mainscene.pointlight[i].position);
+            PBR_withoutTex.setVec3("lightColors["+ std::to_string(i)+ "]", mainscene.pointlight[i].color);
+        }
+
+        PBR_withoutTex.setVec3("camPos", camera.Position);
         
         // Finally render quad
         RenderQuad();
