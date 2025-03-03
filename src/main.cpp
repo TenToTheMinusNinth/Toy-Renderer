@@ -82,14 +82,14 @@ int main()
     // -------------------- 
     Scene mainscene(
         {
-        Object(&sphere,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.1f))
+        Object(&sphere,glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.3f))
         },
         DirectLight(),
         {
-        PointLight(glm::vec3(0.5,0.5,0.0),glm::vec3(1.0,1.0,1.0)),
-        PointLight(glm::vec3(0.5,-0.5,0.0),glm::vec3(1.0,1.0,1.0)),
-        PointLight(glm::vec3(-0.5,0.5,0.0),glm::vec3(1.0,1.0,1.0)),
-        PointLight(glm::vec3(-0.5,-0.5,0.0),glm::vec3(1.0,1.0,1.0))
+        PointLight(glm::vec3(0.5,0.5,0.5),glm::vec3(1.0,1.0,1.0)),
+        PointLight(glm::vec3(0.5,-0.5,0.5),glm::vec3(1.0,1.0,1.0)),
+        PointLight(glm::vec3(-0.5,0.5,0.5),glm::vec3(1.0,1.0,1.0)),
+        PointLight(glm::vec3(-0.5,-0.5,0.5),glm::vec3(1.0,1.0,1.0))
         }
     );
     Scene::simplelightshader =
@@ -243,7 +243,7 @@ int main()
                                         static float pointlightcolor1[3] = { 1.0f, 1.0f, 1.0f };
                                         ImGui::ColorEdit3("Color", pointlightcolor1);
                                         mainscene.pointlight[0].SetColor(glm::vec3(pointlightcolor1[0], pointlightcolor1[1], pointlightcolor1[2]));
-                                        static float pointlightposition1[3] = { 0.50f, 0.50f, 0.0f };
+                                        static float pointlightposition1[3] = { 0.50f, 0.50f, 0.5f };
                                         ImGui::InputFloat3("Position", pointlightposition1);
                                         mainscene.pointlight[0].SetPosition(glm::vec3(pointlightposition1[0], pointlightposition1[1], pointlightposition1[2]));
                                         static float pointlightdensity1 = 1.0;
@@ -259,7 +259,7 @@ int main()
                                         static float pointlightcolor2[3] = { 1.0f, 1.0f, 1.0f };
                                         ImGui::ColorEdit3("Color", pointlightcolor2);
                                         mainscene.pointlight[1].SetColor(glm::vec3(pointlightcolor2[0], pointlightcolor2[1], pointlightcolor2[2]));
-                                        static float pointlightposition2[3] = { 0.50f, -0.50f, 0.0f };
+                                        static float pointlightposition2[3] = { 0.50f, -0.50f, 0.5f };
                                         ImGui::InputFloat3("Position", pointlightposition2);
                                         mainscene.pointlight[1].SetPosition(glm::vec3(pointlightposition2[0], pointlightposition2[1], pointlightposition2[2]));
                                         static float pointlightdensity2 = 1.0;
@@ -275,7 +275,7 @@ int main()
                                         static float pointlightcolor3[3] = { 1.0f, 1.0f, 1.0f };
                                         ImGui::ColorEdit3("Color", pointlightcolor3);
                                         mainscene.pointlight[2].SetColor(glm::vec3(pointlightcolor3[0], pointlightcolor3[1], pointlightcolor3[2]));
-                                        static float pointlightposition3[3] = { -0.50f, 0.50f, 0.0f };
+                                        static float pointlightposition3[3] = { -0.50f, 0.50f, 0.5f };
                                         ImGui::InputFloat3("Position", pointlightposition3);
                                         mainscene.pointlight[2].SetPosition(glm::vec3(pointlightposition3[0], pointlightposition3[1], pointlightposition3[2]));
                                         static float pointlightdensity3 = 1.0;
@@ -291,7 +291,7 @@ int main()
                                         static float pointlightcolor4[3] = { 1.0f, 1.0f, 1.0f };
                                         ImGui::ColorEdit3("Color", pointlightcolor4);
                                         mainscene.pointlight[3].SetColor(glm::vec3(pointlightcolor4[0], pointlightcolor4[1], pointlightcolor4[2]));
-                                        static float pointlightposition4[3] = { -0.50f, -0.50f, 0.0f };
+                                        static float pointlightposition4[3] = { -0.50f, -0.50f, 0.5f };
                                         ImGui::InputFloat3("Position", pointlightposition4);
                                         mainscene.pointlight[3].SetPosition(glm::vec3(pointlightposition4[0], pointlightposition4[1], pointlightposition4[2]));
                                         static float pointlightdensity4 = 1.0;
@@ -314,9 +314,9 @@ int main()
         }
         if (ImGui::TreeNode("Material Setting")) {
             ImGui::InputFloat3("albedo", albedo);
-            ImGui::InputFloat("metallic", &metallic, 0.01f, 1.0f, "%.3f");
-            ImGui::InputFloat("roughness", &roughness, 0.01f, 1.0f, "%.3f");
-            ImGui::InputFloat("ao", &ao, 0.01f, 1.0f, "%.3f");
+            ImGui::SliderFloat("metallic", &metallic, 0.0f, 1.0f, "%.3f");
+            ImGui::SliderFloat("roughness", &roughness, 0.0f, 1.0f, "%.3f");
+            ImGui::SliderFloat("ao", &ao, 0.0f, 1.0f, "%.3f");
             ImGui::TreePop();
 
         }

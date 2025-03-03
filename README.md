@@ -1,7 +1,7 @@
 # Toy Renderer
-I create this renderer just for study,which is based on OpenGL 4.6
-
-# External library
+I create this renderer just for study,and I want to appreciate this series:[learnOpenGl-CN](https://learnopengl-cn.github.io/),which helps me a lot.  
+This project is based on OpenGL 4.6
+## External library
 [glfw](https://www.glfw.org/download.html)  
 [glad](https://glad.dav1d.de/)  
 [assimp](https://github.com/assimp/assimp)  
@@ -9,12 +9,13 @@ I create this renderer just for study,which is based on OpenGL 4.6
 [glm](https://glm.g-truc.net/0.9.8/index.html)   
 [imgui](https://github.com/ocornut/imgui)
 
-# Features that are already in the renderer
-shadow  
+## Features that are already in the renderer
+The basic function required by a renderer  
+shadow map  
 skybox  
 defer render  
-ssao  
-
-# Features planned for future
-PBR    
+SSAO  
+PBR
+## Features planned for future
 IBL
+
